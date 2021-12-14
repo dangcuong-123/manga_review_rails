@@ -26,6 +26,12 @@
 <% end %>  
 </p>
 
+<p class="fs-3">
+<strong>Rate:</strong>
+<%= link_to number_with_precision(@manga.rate, :precision => 2), "#", class:"btn btn-outline-dark" %>
+</p>
+
+
 <div class="btn-group" role="group">
     <%= link_to 'Back', mangas_path, class:"btn btn-outline-dark" %>
   <%= link_to 'Edit', edit_manga_path(@manga), class:"btn btn-outline-primary" %>     
@@ -47,6 +53,11 @@
 <br><br><br>
 <p class="fs-3">Review Form</p>
  <%= form_with(model: @review, local: true) do |form| %>
+    <div class="form-group">
+     <label for="customRange1">Rate: </label>
+     <%= form.range_field :rate, id:"rate", in:1..10 %>
+     <span id="demo"></span>/10
+   </div>
    <div class= "field col-sm-5">
      <%= form.text_area :comment, class:"form-control" %>
      <%= form.hidden_field :user_id, :value => current_user.id %>
@@ -65,6 +76,7 @@
     <tr>
       <th>#</th>
       <th>User</th>
+      <th>Rate</th>
       <th>Review</th>
       <th>Time</th>
     </tr>
@@ -78,7 +90,8 @@
 	  <td><%= link_to review.user.name, "#", class: "btn btn-outline-dark" %> </td>
         <% else %>
 	  <td><%= link_to review.user.email, "#", class: "btn btn-outline-dark" %> </td>
-        <% end %>      
+        <% end %>    
+        <td><%= link_to review.rate, "#", class:"btn btn-outline-dark" %></td>
         <td><%= link_to review.comment, "#", class:"btn btn-outline-dark" %></td>
         <td><%= link_to review.created_at.localtime.strftime("%d/%m/%Y %H:%M:%S"), "#", class:"btn btn-outline-dark" %></td>
       </tr>
@@ -88,3 +101,12 @@
 <% else %>
   <p class="fs-4">No review</p>
 <% end %>
+<script>
+var slider = document.getElementById("rate");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value ;
+}
+</script>

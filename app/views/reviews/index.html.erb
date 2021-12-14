@@ -5,6 +5,7 @@
     <tr>
       <th>User</th>
       <th>Manga</th>
+      <th>Rate</th>
       <th>Comment</th>
       <th>Time</th>
     </tr>
@@ -23,6 +24,7 @@
         <% else %>
           <td><%= link_to "Deleted", "#", class: "btn btn-outline-dark" %> </td>
         <% end %>
+        <td><%= link_to review.rate, "#", class:"btn btn-outline-dark" %></td>
         <td><%= link_to review.comment, "#", class: "btn btn-outline-dark" %> </td>
         <td><%= link_to review.created_at.localtime.strftime("%d/%m/%Y %H:%M:%S"), "#", class: "btn btn-outline-dark" %> </td>
       </tr>

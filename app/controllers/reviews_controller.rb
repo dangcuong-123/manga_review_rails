@@ -23,7 +23,11 @@ class ReviewsController < ApplicationController
   # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
-
+    @manga = Manga.find(params[:review][:manga_id])
+    
+    a = @manga.reviews.count*@manga.rate.to_f + params[:review][:rate].to_f
+    @manga.rate = a/(@manga.reviews.count+1)
+    @manga.save
     respond_to do |format|
       if @review.save
         url = "/mangas/" + @review.manga_id.to_s
@@ -67,6 +71,6 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:user_id, :manga_id, :comment)
+      params.require(:review).permit(:user_id, :manga_id, :comment, :rate)
     end
 end
